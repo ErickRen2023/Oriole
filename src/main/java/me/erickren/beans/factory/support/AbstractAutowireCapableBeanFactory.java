@@ -2,6 +2,8 @@ package me.erickren.beans.factory.support;
 
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
+import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
+import me.erickren.beans.factory.support.instantiation.SimpleInstantiationStrategy;
 
 /**
  * Abstract Autowire Bean factory.

@@ -1,4 +1,4 @@
-package me.erickren.beans.factory.support;
+package me.erickren.beans.factory.support.instantiation;
 
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
