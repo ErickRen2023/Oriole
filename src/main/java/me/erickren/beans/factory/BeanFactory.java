@@ -1,20 +1,19 @@
 package me.erickren.beans.factory;
 
-import java.util.HashMap;
-import java.util.Map;
+import me.erickren.beans.factory.exception.BeanException;
 
 /**
  * DateTime: 2023/09/14 - 17:49
  * Author: ErickRen
  */
-public class BeanFactory {
-    private Map<String, Object> beanMap = new HashMap<>();
+public interface BeanFactory {
 
-    public void registerBean(String name, Object bean){
-        beanMap.put(name, bean);
-    }
-
-    public Object getBean(String name) {
-        return beanMap.get(name);
-    }
+    /**
+     * Get the bean.
+     *
+     * @param beanName Bean name.
+     * @return Bean object.
+     * @throws BeanException Bean not found.
+     */
+    Object getBean(String beanName) throws BeanException;
 }
