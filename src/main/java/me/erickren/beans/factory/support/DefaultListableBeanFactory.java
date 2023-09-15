@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * The final Bean factory.
  * DateTime: 2023/09/14 - 22:29
  * Author: ErickRen
  */

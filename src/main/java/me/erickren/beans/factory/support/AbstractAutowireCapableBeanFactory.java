@@ -4,6 +4,8 @@ import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
 
 /**
+ * Abstract Autowire Bean factory.
+ * Implement the createBean() Method.
  * DateTime: 2023/09/14 - 22:29
  * Author: ErickRen
  */

@@ -1,6 +1,7 @@
 package me.erickren.beans.factory.config;
 
 /**
+ * The bean definition.
  * DateTime: 2023/09/14 - 18:34
  * Author: ErickRen
  */

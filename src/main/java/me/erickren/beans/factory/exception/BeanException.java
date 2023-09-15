@@ -1,6 +1,7 @@
 package me.erickren.beans.factory.exception;
 
 /**
+ * Bean exception.
  * DateTime: 2023/09/14 - 22:14
  * Author: ErickRen
  */
