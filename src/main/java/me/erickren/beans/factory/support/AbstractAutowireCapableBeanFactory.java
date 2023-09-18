@@ -3,6 +3,7 @@ package me.erickren.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import me.erickren.beans.factory.PropertyValue;
 import me.erickren.beans.factory.config.BeanDefinition;
+import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;
 import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
 import me.erickren.beans.factory.support.instantiation.SimpleInstantiationStrategy;
@@ -24,11 +25,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
         Object bean;
         try {
+            // Create bean.
             bean = createBeanInstance(beanDefinition);
+            // Populate bean.
             applyPropertyValues(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
+        // Add bean to singleton map.
         addSingleton(beanName, bean);
         return bean;
     }
@@ -56,7 +60,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
-
+                
+                // Bean reference instantiation.
+                if (value instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
+                
+                // Populate bean with property values.
                 BeanUtil.setFieldValue(bean, name, value);
             }
             

@@ -1,12 +1,15 @@
 package me.erickren.ioc.beans;
 
 /**
+ * Test bean.
  * DateTime: 2023/09/18 - 11:50
  * Author: ErickRen
  */
 public class Person {
 
     private String name;
+    
+    private Money money;
 
     private int age;
 
@@ -24,6 +27,14 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
     }
 
     @Override
