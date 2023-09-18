@@ -3,6 +3,7 @@ package me.erickren.beans.factory.support;
 import me.erickren.beans.factory.config.BeanDefinition;
 
 /**
+ * Bean definition registry interface.
  * DateTime: 2023/09/14 - 18:39
  * Author: ErickRen
  */

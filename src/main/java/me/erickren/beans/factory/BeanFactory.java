@@ -3,6 +3,7 @@ package me.erickren.beans.factory;
 import me.erickren.beans.factory.exception.BeanException;
 
 /**
+ * Bean factory interface.
  * DateTime: 2023/09/14 - 17:49
  * Author: ErickRen
  */

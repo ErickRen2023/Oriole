@@ -5,6 +5,8 @@ import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
 
 /**
+ * Abstract Bean factory.
+ * Implement the getBean() Method.
  * DateTime: 2023/09/14 - 18:53
  * Author: ErickRen
  */
