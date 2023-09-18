@@ -1,5 +1,7 @@
 package me.erickren.beans.factory.support;
 
+import cn.hutool.core.bean.BeanUtil;
+import me.erickren.beans.factory.PropertyValue;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
 import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
@@ -20,9 +22,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
-        Object bean = null;
+        Object bean;
         try {
             bean = createBeanInstance(beanDefinition);
+            applyPropertyValues(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
@@ -40,5 +43,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     
     public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
+    }
+
+    /**
+     * Populate bean with property values.
+     * @param beanName Bean name.
+     * @param bean Bean Object.
+     * @param beanDefinition Bean definition.
+     */
+    protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        try {
+            for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
+                String name = propertyValue.getName();
+                Object value = propertyValue.getValue();
+
+                BeanUtil.setFieldValue(bean, name, value);
+            }
+            
+        } catch (Exception e) {
+            throw new BeanException("Error setting property values for bean: " + beanName, e);
+        }
     }
 }
