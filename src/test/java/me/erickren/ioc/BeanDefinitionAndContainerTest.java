@@ -3,7 +3,9 @@ package me.erickren.ioc;
 import me.erickren.beans.factory.PropertyValue;
 import me.erickren.beans.factory.PropertyValues;
 import me.erickren.beans.factory.config.BeanDefinition;
+import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;
+import me.erickren.ioc.beans.Money;
 import me.erickren.ioc.beans.Person;
 import org.junit.Test;
 
@@ -38,5 +40,32 @@ public class BeanDefinitionAndContainerTest {
 		System.out.println(person);
 		assertThat(person.getName()).isEqualTo("ErickRen");
 		assertThat(person.getAge()).isEqualTo(18);
+    }
+    
+    @Test
+    public void testPopulateBeanWithBean() {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        // Create reference.
+        PropertyValues moneyValues = new PropertyValues();
+        moneyValues.addPropertyValue(new PropertyValue("count", 0));
+        BeanDefinition moneyDefinition = new BeanDefinition(Money.class, moneyValues);
+        beanFactory.registerBeanDefinition("myMoney", moneyDefinition);
+        
+        // Create bean.
+		PropertyValues propertyValues = new PropertyValues();
+		propertyValues.addPropertyValue(new PropertyValue("name", "ErickRen"));
+		propertyValues.addPropertyValue(new PropertyValue("age", 18));
+        propertyValues.addPropertyValue(new PropertyValue("money", new BeanReference("myMoney")));
+		BeanDefinition beanDefinition = new BeanDefinition(Person.class, propertyValues);
+		beanFactory.registerBeanDefinition("me", beanDefinition);
+        
+        Person person = (Person) beanFactory.getBean("me");
+        Money testMoney = person.getMoney();
+        
+        // Test
+		assertThat(person.getName()).isEqualTo("ErickRen");
+		assertThat(person.getAge()).isEqualTo(18);
+		assertThat(testMoney).isNotNull();
+		assertThat(testMoney.getCount()).isEqualTo(0);
     }
 }
