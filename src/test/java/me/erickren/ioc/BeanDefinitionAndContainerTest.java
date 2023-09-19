@@ -1,7 +1,7 @@
 package me.erickren.ioc;
 
-import me.erickren.beans.factory.PropertyValue;
-import me.erickren.beans.factory.PropertyValues;
+import me.erickren.beans.PropertyValue;
+import me.erickren.beans.PropertyValues;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;

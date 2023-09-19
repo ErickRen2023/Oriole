@@ -1,7 +1,7 @@
 package me.erickren.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
-import me.erickren.beans.factory.PropertyValue;
+import me.erickren.beans.PropertyValue;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;

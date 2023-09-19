@@ -1,4 +1,6 @@
-package me.erickren.beans.factory;
+package me.erickren.beans;
+
+import me.erickren.beans.PropertyValue;
 
 import java.util.ArrayList;
 import java.util.List;
