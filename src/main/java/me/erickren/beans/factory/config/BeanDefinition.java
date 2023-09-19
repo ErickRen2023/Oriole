@@ -1,6 +1,6 @@
 package me.erickren.beans.factory.config;
 
-import me.erickren.beans.factory.PropertyValues;
+import me.erickren.beans.PropertyValues;
 
 /**
  * The bean definition.

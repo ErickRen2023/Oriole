@@ -1,4 +1,4 @@
-package me.erickren.beans.factory;
+package me.erickren.beans;
 
 /**
  * Bean property
