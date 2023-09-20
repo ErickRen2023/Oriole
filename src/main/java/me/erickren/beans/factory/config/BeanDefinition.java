@@ -10,7 +10,7 @@ import me.erickren.beans.PropertyValues;
 public class BeanDefinition {
 
     private Class beanClass;
-    
+
     private PropertyValues propertyValues;
 
     public BeanDefinition(Class beanClass) {

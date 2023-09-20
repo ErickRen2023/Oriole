@@ -11,7 +11,8 @@ import java.io.InputStream;
 public interface Resource {
 
     /**
-     * Get the input stream of the resource. 
+     * Get the input stream of the resource.
+     *
      * @return InputStream
      * @throws IOException IoException.
      */

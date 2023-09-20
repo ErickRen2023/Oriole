@@ -7,5 +7,11 @@ package me.erickren.beans.factory.config;
  */
 public interface SingletonBeanRegistry {
 
+    /**
+     * Get the single bean.
+     *
+     * @param beanName Bean name.
+     * @return Object bean.
+     */
     Object getSingleton(String beanName);
 }

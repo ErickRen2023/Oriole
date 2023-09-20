@@ -6,8 +6,18 @@ package me.erickren.ioc.beans;
  * Author: ErickRen
  */
 public class Money {
-    
+
     private int count;
+    
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getCount() {
         return count;
@@ -21,6 +31,7 @@ public class Money {
     public String toString() {
         return "Money{" +
                 "count=" + count +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -10,20 +10,20 @@ import java.io.InputStream;
  * Author: ErickRen
  */
 public class ClassPathResource implements Resource {
-    
+
     private final String path;
 
-	public ClassPathResource(String path) {
-		this.path = path;
-	}
-	
-	@Override
-	public InputStream getInputStream() throws IOException {
-		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.path);
-		if (inputStream == null) {
-			throw new FileNotFoundException(this.path + " cannot be opened because it does not exist");
-		}
-		return inputStream;
-	}
+    public ClassPathResource(String path) {
+        this.path = path;
+    }
+
+    @Override
+    public InputStream getInputStream() throws IOException {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.path);
+        if (inputStream == null) {
+            throw new FileNotFoundException(this.path + " cannot be opened because it does not exist");
+        }
+        return inputStream;
+    }
 }
 

@@ -1,7 +1,5 @@
 package me.erickren.beans;
 
-import me.erickren.beans.PropertyValue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,19 +9,20 @@ import java.util.List;
  * Author: ErickRen
  */
 public class PropertyValues {
-    
+
     private final List<PropertyValue> propertyValueList = new ArrayList<>();
-    
+
     public void addPropertyValue(PropertyValue propertyValue) {
         this.propertyValueList.add(propertyValue);
     }
-    
+
     public PropertyValue[] getPropertyValues() {
         return this.propertyValueList.toArray(new PropertyValue[0]);
     }
 
     /**
      * Get the propertyValue by name.
+     *
      * @param propertyName Property name.
      * @return The value if name exists.
      */
@@ -35,6 +34,6 @@ public class PropertyValues {
         }
         return null;
     }
-    
-    
+
+
 }

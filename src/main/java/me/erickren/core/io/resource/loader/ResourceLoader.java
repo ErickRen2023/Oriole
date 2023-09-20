@@ -11,6 +11,7 @@ public interface ResourceLoader {
 
     /**
      * Get resource.
+     *
      * @param location location.
      * @return Resource.
      */

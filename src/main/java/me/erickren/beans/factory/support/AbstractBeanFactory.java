@@ -1,7 +1,7 @@
 package me.erickren.beans.factory.support;
 
-import me.erickren.beans.factory.BeanFactory;
 import me.erickren.beans.factory.config.BeanDefinition;
+import me.erickren.beans.factory.config.ConfigurableBeanFactory;
 import me.erickren.beans.factory.exception.BeanException;
 
 /**
@@ -10,7 +10,7 @@ import me.erickren.beans.factory.exception.BeanException;
  * DateTime: 2023/09/14 - 18:53
  * Author: ErickRen
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
     @Override
     public Object getBean(String beanName) throws BeanException {
@@ -19,7 +19,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
             return bean;
         }
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
-		return createBean(beanName, beanDefinition);
+        return createBean(beanName, beanDefinition);
     }
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeanException;

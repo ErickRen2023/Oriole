@@ -10,7 +10,7 @@ import java.net.URLConnection;
  * Author: ErickRen
  */
 public class UrlResource implements Resource {
-    
+
     private final URL url;
 
     public UrlResource(URL url) {

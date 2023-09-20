@@ -8,6 +8,13 @@ import me.erickren.beans.factory.exception.BeanException;
  * Author: ErickRen
  */
 public interface InstantiationStrategy {
-    
+
+    /**
+     * Instantiation of bean.
+     *
+     * @param beanDefinition Bean definition.
+     * @return Object
+     * @throws BeanException Exception.
+     */
     Object instantiate(BeanDefinition beanDefinition) throws BeanException;
 }

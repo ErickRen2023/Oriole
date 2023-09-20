@@ -26,22 +26,22 @@ public class BeanDefinitionAndContainerTest {
         TestClass testClass = (TestClass) beanFactory.getBean("testClass");
         testClass.helloWorld();
     }
-    
+
     @Test
     public void testPopulateBeanWithProperty() {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		PropertyValues propertyValues = new PropertyValues();
-		propertyValues.addPropertyValue(new PropertyValue("name", "ErickRen"));
-		propertyValues.addPropertyValue(new PropertyValue("age", 18));
-		BeanDefinition beanDefinition = new BeanDefinition(Person.class, propertyValues);
-		beanFactory.registerBeanDefinition("me", beanDefinition);
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("name", "ErickRen"));
+        propertyValues.addPropertyValue(new PropertyValue("age", 18));
+        BeanDefinition beanDefinition = new BeanDefinition(Person.class, propertyValues);
+        beanFactory.registerBeanDefinition("me", beanDefinition);
 
-		Person person = (Person) beanFactory.getBean("me");
-		System.out.println(person);
-		assertThat(person.getName()).isEqualTo("ErickRen");
-		assertThat(person.getAge()).isEqualTo(18);
+        Person person = (Person) beanFactory.getBean("me");
+        System.out.println(person);
+        assertThat(person.getName()).isEqualTo("ErickRen");
+        assertThat(person.getAge()).isEqualTo(18);
     }
-    
+
     @Test
     public void testPopulateBeanWithBean() {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -50,22 +50,22 @@ public class BeanDefinitionAndContainerTest {
         moneyValues.addPropertyValue(new PropertyValue("count", 0));
         BeanDefinition moneyDefinition = new BeanDefinition(Money.class, moneyValues);
         beanFactory.registerBeanDefinition("myMoney", moneyDefinition);
-        
+
         // Create bean.
-		PropertyValues propertyValues = new PropertyValues();
-		propertyValues.addPropertyValue(new PropertyValue("name", "ErickRen"));
-		propertyValues.addPropertyValue(new PropertyValue("age", 18));
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("name", "ErickRen"));
+        propertyValues.addPropertyValue(new PropertyValue("age", 18));
         propertyValues.addPropertyValue(new PropertyValue("money", new BeanReference("myMoney")));
-		BeanDefinition beanDefinition = new BeanDefinition(Person.class, propertyValues);
-		beanFactory.registerBeanDefinition("me", beanDefinition);
-        
+        BeanDefinition beanDefinition = new BeanDefinition(Person.class, propertyValues);
+        beanFactory.registerBeanDefinition("me", beanDefinition);
+
         Person person = (Person) beanFactory.getBean("me");
         Money testMoney = person.getMoney();
-        
+
         // Test
-		assertThat(person.getName()).isEqualTo("ErickRen");
-		assertThat(person.getAge()).isEqualTo(18);
-		assertThat(testMoney).isNotNull();
-		assertThat(testMoney.getCount()).isEqualTo(0);
+        assertThat(person.getName()).isEqualTo("ErickRen");
+        assertThat(person.getAge()).isEqualTo(18);
+        assertThat(testMoney).isNotNull();
+        assertThat(testMoney.getCount()).isEqualTo(0);
     }
 }

@@ -2,7 +2,6 @@ package me.erickren.beans.factory.support.instantiation;
 
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.exception.BeanException;
-import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
 
 import java.lang.reflect.Constructor;
 
@@ -14,6 +13,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
     /**
      * Create bean by NO-ARGS constructor.
+     *
      * @param beanDefinition Bean definition
      * @return Bean Object
      * @throws BeanException Failed to instantiate.

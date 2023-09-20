@@ -2,6 +2,7 @@ package me.erickren.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import me.erickren.beans.PropertyValue;
+import me.erickren.beans.factory.config.AutowireCapableBeanFactory;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;
@@ -14,10 +15,10 @@ import me.erickren.beans.factory.support.instantiation.SimpleInstantiationStrate
  * DateTime: 2023/09/14 - 22:29
  * Author: ErickRen
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
-    
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
+
     private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
-    
+
     protected Object createBean(String beanName, BeanDefinition beanDefinition) {
         return doCreateBean(beanName, beanDefinition);
     }
@@ -36,23 +37,24 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         addSingleton(beanName, bean);
         return bean;
     }
-    
+
     protected Object createBeanInstance(BeanDefinition beanDefinition) {
-		return getInstantiationStrategy().instantiate(beanDefinition);
-	}
-    
+        return getInstantiationStrategy().instantiate(beanDefinition);
+    }
+
     public InstantiationStrategy getInstantiationStrategy() {
         return this.instantiationStrategy;
     }
-    
+
     public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
     }
 
     /**
      * Populate bean with property values.
-     * @param beanName Bean name.
-     * @param bean Bean Object.
+     *
+     * @param beanName       Bean name.
+     * @param bean           Bean Object.
      * @param beanDefinition Bean definition.
      */
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
@@ -60,17 +62,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
-                
+
                 // Bean reference instantiation.
                 if (value instanceof BeanReference) {
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
                 }
-                
+
                 // Populate bean with property values.
                 BeanUtil.setFieldValue(bean, name, value);
             }
-            
+
         } catch (Exception e) {
             throw new BeanException("Error setting property values for bean: " + beanName, e);
         }

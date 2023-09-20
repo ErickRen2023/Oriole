@@ -8,7 +8,7 @@ package me.erickren.ioc.beans;
 public class Person {
 
     private String name;
-    
+
     private Money money;
 
     private int age;
