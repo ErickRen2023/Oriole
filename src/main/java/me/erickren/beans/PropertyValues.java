@@ -12,8 +12,15 @@ public class PropertyValues {
 
     private final List<PropertyValue> propertyValueList = new ArrayList<>();
 
-    public void addPropertyValue(PropertyValue propertyValue) {
-        this.propertyValueList.add(propertyValue);
+    public void addPropertyValue(PropertyValue newPV) {
+        for (PropertyValue pv : propertyValueList) {
+            if (pv.getName().equals(newPV.getName())) {
+                // Modify the property value.
+                propertyValueList.set(propertyValueList.indexOf(pv), newPV);
+                return;
+            }
+        }
+        this.propertyValueList.add(newPV);
     }
 
     public PropertyValue[] getPropertyValues() {
@@ -24,7 +31,7 @@ public class PropertyValues {
      * Get the propertyValue by name.
      *
      * @param propertyName Property name.
-     * @return The value if name exists.
+     * @return The value if name exists or null.
      */
     public PropertyValue getPropertyValue(String propertyName) {
         for (PropertyValue propertyValue : this.propertyValueList) {

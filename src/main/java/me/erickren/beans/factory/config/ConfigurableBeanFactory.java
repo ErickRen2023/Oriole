@@ -7,5 +7,10 @@ import me.erickren.beans.factory.HierarchicalBeanFactory;
  * Author: ErickRen
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
-    
+
+    /**
+     * Add a BeanPostProcessor.
+     * @param postProcessor BeanPostProcessor.
+     */
+    void addBeanPostProcessor(BeanPostProcessor postProcessor);
 }
