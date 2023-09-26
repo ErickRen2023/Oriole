@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import me.erickren.beans.PropertyValue;
 import me.erickren.beans.factory.config.AutowireCapableBeanFactory;
 import me.erickren.beans.factory.config.BeanDefinition;
+import me.erickren.beans.factory.config.BeanPostProcessor;
 import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;
 import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
@@ -30,12 +31,62 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             bean = createBeanInstance(beanDefinition);
             // Populate bean.
             applyPropertyValues(beanName, bean, beanDefinition);
+            // Call the Bean initialization method and BeanPostProcessor.
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
         // Add bean to singleton map.
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+
+        invokeInitMethod(beanName, wrappedBean, beanDefinition);
+
+        wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        return wrappedBean;
+    }
+
+    /**
+     * Call the bean initialization method.
+     *
+     * @param beanName       Bean name.
+     * @param wrappedBean    Bean object.
+     * @param beanDefinition Bean definition.
+     */
+    private void invokeInitMethod(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+        // TODO
+        System.out.println("Testing");
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsBeforeInitialization(Object existBean, String beanName) throws BeanException {
+        Object result = existBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            Object current = processor.postProcessBeforeInitialization(result, beanName);
+            if (current == null) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeanException {
+
+        Object result = existingBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            Object current = processor.postProcessAfterInitialization(result, beanName);
+            if (current == null) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition) {
