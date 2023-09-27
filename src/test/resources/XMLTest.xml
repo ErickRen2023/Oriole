@@ -15,4 +15,5 @@
     <bean id="myMoney" class="me.erickren.ioc.beans.Money">
         <property name="status" value="empty"/>
     </bean>
+    
 </beans>
