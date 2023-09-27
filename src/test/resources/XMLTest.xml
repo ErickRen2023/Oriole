@@ -16,4 +16,7 @@
         <property name="status" value="empty"/>
     </bean>
     
+    <bean class="me.erickren.ioc.processor.MyBeanFactoryPostProcessor"/>
+
+    <bean class="me.erickren.ioc.processor.MyBeanPostProcessor"/>
 </beans>
