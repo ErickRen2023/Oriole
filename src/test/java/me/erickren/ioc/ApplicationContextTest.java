@@ -17,7 +17,7 @@ public class ApplicationContextTest {
     public void testApplicationContext() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:XMLTest.xml");
         Person me = applicationContext.getBean("me", Person.class);
-        assertThat(me.getName()).isEqualTo("ErickRen");
+        assertThat(me.getName()).isEqualTo("Ren");
 
         Money money = applicationContext.getBean("myMoney", Money.class);
         assertThat(money.getStatus()).isEqualTo("Infinity");
