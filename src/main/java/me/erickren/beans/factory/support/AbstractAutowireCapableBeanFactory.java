@@ -1,7 +1,11 @@
 package me.erickren.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import me.erickren.beans.PropertyValue;
+import me.erickren.beans.factory.DisposableBean;
+import me.erickren.beans.factory.InitializingBean;
 import me.erickren.beans.factory.config.AutowireCapableBeanFactory;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanPostProcessor;
@@ -9,6 +13,8 @@ import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;
 import me.erickren.beans.factory.support.instantiation.InstantiationStrategy;
 import me.erickren.beans.factory.support.instantiation.SimpleInstantiationStrategy;
+
+import java.lang.reflect.Method;
 
 /**
  * Abstract Autowire Bean factory.
@@ -32,19 +38,39 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // Populate bean.
             applyPropertyValues(beanName, bean, beanDefinition);
             // Call the Bean initialization method and BeanPostProcessor.
-            bean = initializeBean(beanName, bean, beanDefinition);
+            initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
+        registerDisposableBean(beanName, bean, beanDefinition);
+        
         // Add bean to singleton map.
         addSingleton(beanName, bean);
         return bean;
     }
 
-    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
-        Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+    /**
+     * Registry disposable bean.
+     * @param beanName Bean name.
+     * @param bean Object bean.
+     * @param beanDefinition Bean definition.
+     */
+    
+    protected void registerDisposableBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+		if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+			registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+		}
+	}
+    
+    
 
-        invokeInitMethod(beanName, wrappedBean, beanDefinition);
+    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+        try {
+			invokeInitMethod(beanName, wrappedBean, beanDefinition);
+		} catch (Throwable ex) {
+			throw new BeanException("Invocation of init method of bean[" + beanName + "] failed", ex);
+		}
 
         wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
         return wrappedBean;
@@ -57,9 +83,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param wrappedBean    Bean object.
      * @param beanDefinition Bean definition.
      */
-    private void invokeInitMethod(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
-        // TODO
-        System.out.println("Testing");
+    private void invokeInitMethod(String beanName, Object wrappedBean, BeanDefinition beanDefinition) throws Exception {
+        if (wrappedBean instanceof InitializingBean) {
+			((InitializingBean) wrappedBean).afterPropertiesSet();
+		}
+		String initMethodName = beanDefinition.getInitMethodName();
+		if (StrUtil.isNotEmpty(initMethodName)) {
+			Method initMethod = ClassUtil.getPublicMethod(beanDefinition.getBeanClass(), initMethodName);
+			if (initMethod == null) {
+				throw new BeanException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+			}
+			initMethod.invoke(wrappedBean);
+		}
     }
 
     @Override

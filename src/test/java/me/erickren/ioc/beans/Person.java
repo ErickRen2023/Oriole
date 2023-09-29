@@ -1,11 +1,14 @@
 package me.erickren.ioc.beans;
 
+import me.erickren.beans.factory.DisposableBean;
+import me.erickren.beans.factory.InitializingBean;
+
 /**
  * Test bean.
  * DateTime: 2023/09/18 - 11:50
  * Author: ErickRen
  */
-public class Person {
+public class Person implements InitializingBean, DisposableBean {
 
     private String name;
 
@@ -44,4 +47,22 @@ public class Person {
                 ", age=" + age +
                 '}';
     }
+    
+    public void myInitMethod() {
+        System.out.println("Init method...");
+    }
+    
+    public void myDestroyMethod() {
+        System.out.println("My Destroy method...");
+    }
+    
+    @Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("AfterPropertiesSet method...");
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		System.out.println("DisposableBean Method...");
+	}
 }

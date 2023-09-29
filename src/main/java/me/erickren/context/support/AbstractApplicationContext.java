@@ -83,4 +83,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	public String[] getBeanDefinitionNames() {
 		return getBeanFactory().getBeanDefinitionNames();
 	}
+    
+    public void close() {
+		doClose();
+	}
+
+	public void registerShutdownHook() {
+		Thread shutdownHook = new Thread(this::doClose);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
+
+	}
+
+	protected void doClose() {
+		destroyBeans();
+	}
+
+	protected void destroyBeans() {
+		getBeanFactory().destroySingletons();
+	}
 }
