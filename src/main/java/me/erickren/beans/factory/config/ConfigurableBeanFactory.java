@@ -13,4 +13,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * @param postProcessor BeanPostProcessor.
      */
     void addBeanPostProcessor(BeanPostProcessor postProcessor);
+
+    /**
+     * Destroy all single bean.
+     */
+    void destroySingletons();
 }

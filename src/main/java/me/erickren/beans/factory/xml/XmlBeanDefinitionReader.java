@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,6 +32,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	public static final String CLASS_ATTRIBUTE = "class";
 	public static final String VALUE_ATTRIBUTE = "value";
 	public static final String REF_ATTRIBUTE = "ref";
+	public static final String INIT_METHOD_ATTRIBUTE = "init-method";
+	public static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
 
 	public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		super(registry);
@@ -62,6 +65,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					String id = bean.getAttribute(ID_ATTRIBUTE);
 					String name = bean.getAttribute(NAME_ATTRIBUTE);
 					String className = bean.getAttribute(CLASS_ATTRIBUTE);
+					String initMethodNameAttribute = bean.getAttribute(INIT_METHOD_ATTRIBUTE);
+					String destroyMethodNameAttribute = bean.getAttribute(DESTROY_METHOD_ATTRIBUTE);
+					
 
 					Class<?> cls;
 					try {
@@ -79,6 +85,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					}
 
 					BeanDefinition beanDefinition = new BeanDefinition(cls);
+					beanDefinition.setInitMethodName(initMethodNameAttribute);
+					beanDefinition.setDestroyMethodName(destroyMethodNameAttribute);
 
 					for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
 						if (bean.getChildNodes().item(j) instanceof Element) {

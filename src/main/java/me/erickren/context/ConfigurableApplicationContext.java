@@ -14,4 +14,15 @@ public interface ConfigurableApplicationContext extends ApplicationContext {
      * @throws BeanException Exception.
      */
     void refresh() throws BeanException;
+
+    /**
+     * Close the application context.
+     */
+    void close();
+
+    /**
+     * Registry a hook function to the jvm.
+     * It will close the container before the jvm closed.
+     */
+    void registerShutdownHook();
 }
