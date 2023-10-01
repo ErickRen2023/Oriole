@@ -11,7 +11,6 @@ import me.erickren.ioc.beans.Money;
 public class MyBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeanException {
-        System.out.println("---------postProcessBeforeInitialization");
 		if ("myMoney".equals(beanName)) {
 			((Money) bean).setStatus("Infinity");
 		}
@@ -20,7 +19,6 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeanException {
-        System.out.println("---------postProcessAfterInitialization");
 		return bean;
     }
 }

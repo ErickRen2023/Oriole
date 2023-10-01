@@ -1,7 +1,6 @@
 package me.erickren.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.XmlUtil;
 import me.erickren.beans.PropertyValue;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanReference;
@@ -10,13 +9,14 @@ import me.erickren.beans.factory.support.AbstractBeanDefinitionReader;
 import me.erickren.beans.factory.support.BeanDefinitionRegistry;
 import me.erickren.core.io.resource.Resource;
 import me.erickren.core.io.resource.loader.ResourceLoader;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * XML reader.
@@ -48,78 +48,64 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             try (InputStream inputStream = resource.getInputStream()) {
                 doLoadBeanDefinitions(inputStream);
             }
-		} catch (IOException ex) {
+		} catch (IOException | DocumentException ex) {
 			throw new BeanException("IOException parsing XML document from " + resource, ex);
 		}
     }
 
-    private void doLoadBeanDefinitions(InputStream inputStream) {
-        Document document = XmlUtil.readXML(inputStream);
-		Element root = document.getDocumentElement();
-		NodeList childNodes = root.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			if (childNodes.item(i) instanceof Element) {
-				if (BEAN_ELEMENT.equals((childNodes.item(i)).getNodeName())) {
-					// Parse bean tag.
-					Element bean = (Element) childNodes.item(i);
-					String id = bean.getAttribute(ID_ATTRIBUTE);
-					String name = bean.getAttribute(NAME_ATTRIBUTE);
-					String className = bean.getAttribute(CLASS_ATTRIBUTE);
-					String initMethodNameAttribute = bean.getAttribute(INIT_METHOD_ATTRIBUTE);
-					String destroyMethodNameAttribute = bean.getAttribute(DESTROY_METHOD_ATTRIBUTE);
-					
+    private void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
+        SAXReader reader = new SAXReader();
+		Document document = reader.read(inputStream);
 
-					Class<?> cls;
-					try {
-						cls = Class.forName(className);
-					} catch (ClassNotFoundException e) {
-						throw new BeanException("Cannot find class [" + className + "]");
-					}
-					
-					// Select ID as the beanName if id is not empty.
-					String beanName = StrUtil.isNotEmpty(id) ? id : name;
-					if (StrUtil.isEmpty(beanName)) {
-						// Lower first letter as the bean name.
-						// UserService --> userService.
-						beanName = StrUtil.lowerFirst(cls.getSimpleName());
-					}
+		org.dom4j.Element beans = document.getRootElement();
+		List<org.dom4j.Element> beanList = beans.elements(BEAN_ELEMENT);
+		for (org.dom4j.Element bean : beanList) {
+			String beanId = bean.attributeValue(ID_ATTRIBUTE);
+			String beanName = bean.attributeValue(NAME_ATTRIBUTE);
+			String className = bean.attributeValue(CLASS_ATTRIBUTE);
+			String initMethodName = bean.attributeValue(INIT_METHOD_ATTRIBUTE);
+			String destroyMethodName = bean.attributeValue(DESTROY_METHOD_ATTRIBUTE);
 
-					BeanDefinition beanDefinition = new BeanDefinition(cls);
-					beanDefinition.setInitMethodName(initMethodNameAttribute);
-					beanDefinition.setDestroyMethodName(destroyMethodNameAttribute);
-
-					for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-						if (bean.getChildNodes().item(j) instanceof Element) {
-							if (PROPERTY_ELEMENT.equals((bean.getChildNodes().item(j)).getNodeName())) {
-								// Parse xml tag.
-								Element property = (Element) bean.getChildNodes().item(j);
-								String nameAttribute = property.getAttribute(NAME_ATTRIBUTE);
-								String valueAttribute = property.getAttribute(VALUE_ATTRIBUTE);
-								String refAttribute = property.getAttribute(REF_ATTRIBUTE);
-
-								if (StrUtil.isEmpty(nameAttribute)) {
-									throw new BeanException("The name attribute cannot be null or empty");
-								}
-								
-								Object value = valueAttribute;
-								// Bean reference.
-								if (StrUtil.isNotEmpty(refAttribute)) {
-									value = new BeanReference(refAttribute);
-								}
-								// Property value.
-								PropertyValue propertyValue = new PropertyValue(nameAttribute, value);
-								beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
-							}
-						}
-					}
-					if (getRegistry().containsBeanDefinition(beanName)) {
-						// There is a same bean name in bean map.
-						throw new BeanException("Duplicate beanName[" + beanName + "] is not allowed");
-					}
-					// registry bean definition.
-					getRegistry().registerBeanDefinition(beanName, beanDefinition);
-				}
+			Class<?> cls;
+			try {
+				cls = Class.forName(className);
+			} catch (ClassNotFoundException e) {
+				throw new BeanException("Cannot find class [" + className + "]");
 			}
+			// Select ID as the beanName if id is not empty.
+			beanName = StrUtil.isNotEmpty(beanId) ? beanId : beanName;
+			if (StrUtil.isEmpty(beanName)) {
+				// Lower first letter as the bean name.
+				// UserService --> userService.
+				beanName = StrUtil.lowerFirst(cls.getSimpleName());
+			}
+
+			BeanDefinition beanDefinition = new BeanDefinition(cls);
+			beanDefinition.setInitMethodName(initMethodName);
+			beanDefinition.setDestroyMethodName(destroyMethodName);
+
+			List<org.dom4j.Element> propertyList = bean.elements(PROPERTY_ELEMENT);
+			for (Element property : propertyList) {
+				String propertyNameAttribute = property.attributeValue(NAME_ATTRIBUTE);
+				String propertyValueAttribute = property.attributeValue(VALUE_ATTRIBUTE);
+				String propertyRefAttribute = property.attributeValue(REF_ATTRIBUTE);
+
+				if (StrUtil.isEmpty(propertyNameAttribute)) {
+					throw new BeanException("The name attribute cannot be null or empty");
+				}
+
+				Object value = propertyValueAttribute;
+				if (StrUtil.isNotEmpty(propertyRefAttribute)) {
+					value = new BeanReference(propertyRefAttribute);
+				}
+				PropertyValue propertyValue = new PropertyValue(propertyNameAttribute, value);
+				beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+			}
+			if (getRegistry().containsBeanDefinition(beanName)) {
+				// There is a same bean name in bean map.
+				throw new BeanException("Duplicate beanName[" + beanName + "] is not allowed");
+			}
+			getRegistry().registerBeanDefinition(beanName, beanDefinition);
 		}
     }
 
