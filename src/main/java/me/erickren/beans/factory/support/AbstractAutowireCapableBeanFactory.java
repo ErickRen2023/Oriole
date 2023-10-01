@@ -64,7 +64,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     
     
 
-    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+    protected void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof BeanFactoryAware) {
+			((BeanFactoryAware) bean).setBeanFactory(this);
+		}
+        
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {
 			invokeInitMethod(beanName, wrappedBean, beanDefinition);
@@ -72,8 +76,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throw new BeanException("Invocation of init method of bean[" + beanName + "] failed", ex);
 		}
 
-        wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
-        return wrappedBean;
+        applyBeanPostProcessorsAfterInitialization(bean, beanName);
     }
 
     /**
