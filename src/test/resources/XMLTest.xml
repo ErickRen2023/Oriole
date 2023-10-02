@@ -16,9 +16,9 @@
         <property name="status" value="empty"/>
     </bean>
     
-    <bean class="me.erickren.ioc.processor.MyBeanFactoryPostProcessor"/>
+<!--    <bean class="me.erickren.ioc.processor.MyBeanFactoryPostProcessor"/>-->
 
-    <bean class="me.erickren.ioc.processor.MyBeanPostProcessor"/>
+<!--    <bean class="me.erickren.ioc.processor.MyBeanPostProcessor"/>-->
     
-    <bean class="me.erickren.ioc.service.TestService"/>
+    <bean class="me.erickren.ioc.service.TestService" scope="prototype"> </bean>
 </beans>
