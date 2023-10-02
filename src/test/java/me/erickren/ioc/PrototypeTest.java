@@ -1,7 +1,6 @@
 package me.erickren.ioc;
 
 import me.erickren.context.support.ClassPathXmlApplicationContext;
-import me.erickren.ioc.beans.Person;
 import me.erickren.ioc.service.TestService;
 import org.junit.Test;
 

@@ -1,12 +1,15 @@
 package me.erickren.beans.factory.support;
 
+import me.erickren.beans.factory.FactoryBean;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanPostProcessor;
 import me.erickren.beans.factory.config.ConfigurableBeanFactory;
 import me.erickren.beans.factory.exception.BeanException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract Bean factory.
@@ -17,15 +20,43 @@ import java.util.List;
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
     
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+    
+    private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
+
 
     @Override
     public Object getBean(String beanName) throws BeanException {
-        Object bean = getSingleton(beanName);
-        if (bean != null) {
-            return bean;
-        }
+        Object sharedInstance = getSingleton(beanName);
+		if (sharedInstance != null) {
+			// Get the bean from bean's getObject() Method.
+			return getObjectForBeanInstance(sharedInstance, beanName);
+		}
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
         return createBean(beanName, beanDefinition);
+    }
+    
+    protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        Object object = beanInstance;
+		if (beanInstance instanceof FactoryBean) {
+			FactoryBean factoryBean = (FactoryBean) beanInstance;
+			try {
+				if (factoryBean.isSingleton()) {
+					// Get bean from cache. scope == singleton.
+					object = this.factoryBeanObjectCache.get(beanName);
+					if (object == null) {
+						object = factoryBean.getObject();
+						this.factoryBeanObjectCache.put(beanName, object);
+					}
+				} else {
+                    // Create new Bean. scope == prototype.
+					object = factoryBean.getObject();
+				}
+			} catch (Exception ex) {
+				throw new BeanException("FactoryBean threw exception on object[" + beanName + "] creation", ex);
+			}
+		}
+
+		return object;
     }
     
     @Override
