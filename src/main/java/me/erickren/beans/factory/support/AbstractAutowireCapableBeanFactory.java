@@ -45,7 +45,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         registerDisposableBean(beanName, bean, beanDefinition);
         
         // Add bean to singleton map.
-        addSingleton(beanName, bean);
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
@@ -57,9 +59,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     
     protected void registerDisposableBean(String beanName, Object bean, BeanDefinition beanDefinition) {
-		if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+        if (beanDefinition.isSingleton()) {
+            if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
 			registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
-		}
+		    }
+        }
 	}
     
     
