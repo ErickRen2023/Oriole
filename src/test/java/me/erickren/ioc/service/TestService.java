@@ -11,6 +11,8 @@ import me.erickren.context.ApplicationContextAware;
  * Author: ErickRen
  */
 public class TestService implements ApplicationContextAware, BeanFactoryAware {
+	
+	public static final String TEST_METHOD_MESSAGE = "Test Method";
     
     private ApplicationContext applicationContext;
 
@@ -32,5 +34,10 @@ public class TestService implements ApplicationContextAware, BeanFactoryAware {
 
 	public BeanFactory getBeanFactory() {
 		return beanFactory;
+	}
+	
+	public String testMethod() {
+		System.out.println(TEST_METHOD_MESSAGE);
+		return TEST_METHOD_MESSAGE;
 	}
 }
