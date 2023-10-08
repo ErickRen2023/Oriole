@@ -1,8 +1,8 @@
-package me.erickren.ioc.processor;
+package me.erickren.processor;
 
 import me.erickren.beans.factory.config.BeanPostProcessor;
 import me.erickren.beans.factory.exception.BeanException;
-import me.erickren.ioc.beans.Money;
+import me.erickren.beans.Money;
 
 /**
  * DateTime: 2023/09/26 - 20:49

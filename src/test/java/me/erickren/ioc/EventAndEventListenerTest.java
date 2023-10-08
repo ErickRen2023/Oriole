@@ -1,7 +1,7 @@
 package me.erickren.ioc;
 
 import me.erickren.context.support.ClassPathXmlApplicationContext;
-import me.erickren.ioc.event.CustomEvent;
+import me.erickren.event.CustomEvent;
 import org.junit.Test;
 
 /**

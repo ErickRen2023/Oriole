@@ -1,9 +1,9 @@
 package me.erickren.ioc;
 
+import me.erickren.beans.Person;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;
 import me.erickren.beans.factory.xml.XmlBeanDefinitionReader;
-import me.erickren.ioc.beans.Money;
-import me.erickren.ioc.beans.Person;
+import me.erickren.beans.Money;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

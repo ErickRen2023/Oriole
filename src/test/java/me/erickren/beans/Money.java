@@ -1,4 +1,4 @@
-package me.erickren.ioc.beans;
+package me.erickren.beans;
 
 /**
  * Test bean.

@@ -1,11 +1,11 @@
 package me.erickren.ioc;
 
+import me.erickren.beans.Person;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;
 import me.erickren.beans.factory.xml.XmlBeanDefinitionReader;
-import me.erickren.ioc.beans.Money;
-import me.erickren.ioc.beans.Person;
-import me.erickren.ioc.processor.MyBeanFactoryPostProcessor;
-import me.erickren.ioc.processor.MyBeanPostProcessor;
+import me.erickren.beans.Money;
+import me.erickren.processor.MyBeanFactoryPostProcessor;
+import me.erickren.processor.MyBeanPostProcessor;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

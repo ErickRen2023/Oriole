@@ -1,4 +1,4 @@
-package me.erickren.ioc.processor;
+package me.erickren.processor;
 
 import me.erickren.beans.PropertyValue;
 import me.erickren.beans.PropertyValues;
