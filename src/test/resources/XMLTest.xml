@@ -7,18 +7,18 @@
 		 http://www.springframework.org/schema/context
 		 http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <bean id="me" class="me.erickren.ioc.beans.Person" init-method="myInitMethod" destroy-method="myDestroyMethod">
+    <bean id="me" class="me.erickren.beans.Person" init-method="myInitMethod" destroy-method="myDestroyMethod">
         <property name="name" value="ErickRen"/>
         <property name="money" ref="myMoney"/>
     </bean>
 
-    <bean id="myMoney" class="me.erickren.ioc.beans.Money">
+    <bean id="myMoney" class="me.erickren.beans.Money">
         <property name="status" value="empty"/>
     </bean>
     
-<!--    <bean class="me.erickren.ioc.processor.MyBeanFactoryPostProcessor"/>-->
+<!--    <bean class="processor.me.erickren.MyBeanFactoryPostProcessor"/>-->
 
-<!--    <bean class="me.erickren.ioc.processor.MyBeanPostProcessor"/>-->
+<!--    <bean class="processor.me.erickren.MyBeanPostProcessor"/>-->
     
-    <bean class="me.erickren.ioc.service.TestService" scope="prototype"> </bean>
+    <bean class="me.erickren.service.TestService" scope="prototype"> </bean>
 </beans>

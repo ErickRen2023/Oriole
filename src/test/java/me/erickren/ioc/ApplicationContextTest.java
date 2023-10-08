@@ -1,8 +1,8 @@
 package me.erickren.ioc;
 
+import me.erickren.beans.Money;
+import me.erickren.beans.Person;
 import me.erickren.context.support.ClassPathXmlApplicationContext;
-import me.erickren.ioc.beans.Money;
-import me.erickren.ioc.beans.Person;
 import org.junit.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;

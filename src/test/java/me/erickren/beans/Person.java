@@ -1,4 +1,4 @@
-package me.erickren.ioc.beans;
+package me.erickren.beans;
 
 import me.erickren.beans.factory.DisposableBean;
 import me.erickren.beans.factory.InitializingBean;

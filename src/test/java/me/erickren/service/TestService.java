@@ -1,4 +1,4 @@
-package me.erickren.ioc.service;
+package me.erickren.service;
 
 import me.erickren.beans.factory.BeanFactory;
 import me.erickren.beans.factory.exception.BeanException;

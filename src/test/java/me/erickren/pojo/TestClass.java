@@ -1,4 +1,4 @@
-package me.erickren.ioc;
+package me.erickren.pojo;
 
 /**
  * DateTime: 2023/09/14 - 18:36

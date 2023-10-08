@@ -1,4 +1,4 @@
-package me.erickren.ioc.event;
+package me.erickren.event;
 
 import me.erickren.context.ApplicationListener;
 
