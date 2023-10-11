@@ -9,6 +9,7 @@ import org.aopalliance.intercept.MethodInterceptor;
  */
 public class AdvisedSupport {
     
+    private boolean cglibProxy = false;
     private TargetSource targetSource;
     private MethodInterceptor methodInterceptor;
     private MethodMatcher methodMatcher;
@@ -35,5 +36,13 @@ public class AdvisedSupport {
 
     public void setMethodMatcher(MethodMatcher methodMatcher) {
         this.methodMatcher = methodMatcher;
+    }
+
+    public boolean isCglibProxy() {
+        return cglibProxy;
+    }
+
+    public void setCglibProxy(boolean cglibProxy) {
+        this.cglibProxy = cglibProxy;
     }
 }
