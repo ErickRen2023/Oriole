@@ -16,20 +16,20 @@ import java.util.Set;
  * Author: ErickRen
  */
 public class AspectJExpressionPointcut implements ClassFilter, MethodMatcher, Pointcut {
-    
+
     private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<>();
-    
+
     static {
-		SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
-	}
+        SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
+    }
 
     private final PointcutExpression pointcutExpression;
-    
+
     public AspectJExpressionPointcut(String expression) {
-		PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
-		pointcutExpression = pointcutParser.parsePointcutExpression(expression);
-	}
-    
+        PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
+        pointcutExpression = pointcutParser.parsePointcutExpression(expression);
+    }
+
     @Override
     public boolean matches(Class<?> clazz) {
         return pointcutExpression.couldMatchJoinPointsInType(clazz);

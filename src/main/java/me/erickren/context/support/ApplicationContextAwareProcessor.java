@@ -10,7 +10,7 @@ import me.erickren.context.ApplicationContextAware;
  * Author: ErickRen
  */
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
-    
+
     private final ApplicationContext applicationContext;
 
 
@@ -22,9 +22,9 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeanException {
         if (bean instanceof ApplicationContextAware) {
-			((ApplicationContextAware) bean).setApplicationContext(applicationContext);
-		}
-		return bean;
+            ((ApplicationContextAware) bean).setApplicationContext(applicationContext);
+        }
+        return bean;
     }
 
     @Override

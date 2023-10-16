@@ -39,14 +39,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeanException {
         Map<String, T> result = new HashMap<>();
-		beanDefinitionMap.forEach((beanName, beanDefinition) -> {
-			Class beanClass = beanDefinition.getBeanClass();
-			if (type.isAssignableFrom(beanClass)) {
-				T bean = (T) getBean(beanName);
-				result.put(beanName, bean);
-			}
-		});
-		return result;
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            Class beanClass = beanDefinition.getBeanClass();
+            if (type.isAssignableFrom(beanClass)) {
+                T bean = (T) getBean(beanName);
+                result.put(beanName, bean);
+            }
+        });
+        return result;
     }
 
     @Override
@@ -54,13 +54,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         Set<String> beanNames = beanDefinitionMap.keySet();
         return beanNames.toArray(new String[beanNames.size()]);
     }
-    
+
     @Override
-	public void preInstantiateSingletons() throws BeanException {
-		beanDefinitionMap.forEach((beanName, beanDefinition) -> {
-			if(beanDefinition.isSingleton()){
-				getBean(beanName);
-			}
-		});
-	}
+    public void preInstantiateSingletons() throws BeanException {
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            if (beanDefinition.isSingleton()) {
+                getBean(beanName);
+            }
+        });
+    }
 }

@@ -7,7 +7,7 @@ import java.util.EventObject;
  * Author: ErickRen
  */
 public abstract class ApplicationEvent extends EventObject {
-    
+
     /**
      * Constructs a prototypical Event.
      *

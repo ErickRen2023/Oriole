@@ -14,22 +14,22 @@ import java.util.Set;
  * Author: ErickRen
  */
 public abstract class AbstractApplicationEventMulticaster implements ApplicationEventMulticaster, BeanFactoryAware {
-    
+
     public final Set<ApplicationListener<ApplicationEvent>> applicationListeners = new HashSet<>();
     private BeanFactory beanFactory;
-    
+
     @Override
-	public void addApplicationListener(ApplicationListener<?> listener) {
-		applicationListeners.add((ApplicationListener<ApplicationEvent>) listener);
-	}
-    
+    public void addApplicationListener(ApplicationListener<?> listener) {
+        applicationListeners.add((ApplicationListener<ApplicationEvent>) listener);
+    }
+
     @Override
-	public void removeApplicationListener(ApplicationListener<?> listener) {
-		applicationListeners.remove(listener);
-	}
-    
+    public void removeApplicationListener(ApplicationListener<?> listener) {
+        applicationListeners.remove(listener);
+    }
+
     @Override
-	public void setBeanFactory(BeanFactory beanFactory) throws BeanException {
-		this.beanFactory = beanFactory;
-	}
+    public void setBeanFactory(BeanFactory beanFactory) throws BeanException {
+        this.beanFactory = beanFactory;
+    }
 }

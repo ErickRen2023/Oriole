@@ -7,6 +7,6 @@ import java.util.EventListener;
  * Author: ErickRen
  */
 public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
-    
+
     void onApplicationEvent(E event);
 }

@@ -19,7 +19,7 @@ import java.util.Collection;
  * Author: ErickRen
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
-    
+
     private DefaultListableBeanFactory beanFactory;
 
 
@@ -58,12 +58,12 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         }
         return null;
     }
-    
+
     private boolean isInfrastructureClass(Class<?> beanClass) {
-		return Advice.class.isAssignableFrom(beanClass)
-				|| Pointcut.class.isAssignableFrom(beanClass)
-				|| Advisor.class.isAssignableFrom(beanClass);
-	}
+        return Advice.class.isAssignableFrom(beanClass)
+                || Pointcut.class.isAssignableFrom(beanClass)
+                || Advisor.class.isAssignableFrom(beanClass);
+    }
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeanException {

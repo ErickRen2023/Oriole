@@ -35,20 +35,20 @@ public class BeanDefinition {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
     }
-    
+
     public void setScope(String scope) {
-		this.scope = scope;
-		this.singleton = SCOPE_SINGLETON.equals(scope);
-		this.prototype = SCOPE_PROTOTYPE.equals(scope);
-	}
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
 
-	public boolean isSingleton() {
-		return this.singleton;
-	}
+    public boolean isSingleton() {
+        return this.singleton;
+    }
 
-	public boolean isPrototype() {
-		return this.prototype;
-	}
+    public boolean isPrototype() {
+        return this.prototype;
+    }
 
     public Class getBeanClass() {
         return beanClass;

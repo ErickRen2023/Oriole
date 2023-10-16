@@ -5,5 +5,5 @@ package me.erickren.beans.factory.support;
  * Author: ErickRen
  */
 public interface Aware {
-    
+
 }

@@ -7,6 +7,7 @@ import me.erickren.context.ApplicationListener;
  * Author: ErickRen
  */
 public class CustomEventListener implements ApplicationListener<CustomEvent> {
+    
     @Override
     public void onApplicationEvent(CustomEvent event) {
         System.out.println(this.getClass().getName() + " Called.");

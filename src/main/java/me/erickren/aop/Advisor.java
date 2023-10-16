@@ -7,6 +7,6 @@ import org.aopalliance.aop.Advice;
  * Author: ErickRen
  */
 public interface Advisor {
-    
+
     Advice getAdvice();
 }

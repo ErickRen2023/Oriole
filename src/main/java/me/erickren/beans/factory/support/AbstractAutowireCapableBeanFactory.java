@@ -26,9 +26,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition) {
         // Create proxy if needed.
         Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
-		if (bean != null) {
-			return bean;
-		}
+        if (bean != null) {
+            return bean;
+        }
         return doCreateBean(beanName, beanDefinition);
     }
 
@@ -36,25 +36,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * Call the {@link InstantiationAwareBeanPostProcessor} # postProcessBeforeInstantiation()
      */
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
-		Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
-		if (bean != null) {
-			bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
-		}
-		return bean;
-	}
-    
-    protected Object applyBeanPostProcessorsBeforeInstantiation(Class beanClass, String beanName) {
-		for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
-			if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
-				Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
+        Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (bean != null) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
 
-		return null;
-	}
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        return null;
+    }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
         Object bean;
@@ -69,7 +69,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
         registerDisposableBean(beanName, bean, beanDefinition);
-        
+
         // Add bean to singleton map.
         if (beanDefinition.isSingleton()) {
             addSingleton(beanName, bean);
@@ -79,32 +79,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * Registry disposable bean.
-     * @param beanName Bean name.
-     * @param bean Object bean.
+     *
+     * @param beanName       Bean name.
+     * @param bean           Object bean.
      * @param beanDefinition Bean definition.
      */
-    
+
     protected void registerDisposableBean(String beanName, Object bean, BeanDefinition beanDefinition) {
         if (beanDefinition.isSingleton()) {
             if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
-			registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
-		    }
+                registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+            }
         }
-	}
-    
-    
+    }
+
 
     protected void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
         if (bean instanceof BeanFactoryAware) {
-			((BeanFactoryAware) bean).setBeanFactory(this);
-		}
-        
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
+
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {
-			invokeInitMethod(beanName, wrappedBean, beanDefinition);
-		} catch (Throwable ex) {
-			throw new BeanException("Invocation of init method of bean[" + beanName + "] failed", ex);
-		}
+            invokeInitMethod(beanName, wrappedBean, beanDefinition);
+        } catch (Throwable ex) {
+            throw new BeanException("Invocation of init method of bean[" + beanName + "] failed", ex);
+        }
 
         applyBeanPostProcessorsAfterInitialization(bean, beanName);
     }
@@ -118,16 +118,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     private void invokeInitMethod(String beanName, Object wrappedBean, BeanDefinition beanDefinition) throws Exception {
         if (wrappedBean instanceof InitializingBean) {
-			((InitializingBean) wrappedBean).afterPropertiesSet();
-		}
-		String initMethodName = beanDefinition.getInitMethodName();
-		if (StrUtil.isNotEmpty(initMethodName)) {
-			Method initMethod = ClassUtil.getPublicMethod(beanDefinition.getBeanClass(), initMethodName);
-			if (initMethod == null) {
-				throw new BeanException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
-			}
-			initMethod.invoke(wrappedBean);
-		}
+            ((InitializingBean) wrappedBean).afterPropertiesSet();
+        }
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName)) {
+            Method initMethod = ClassUtil.getPublicMethod(beanDefinition.getBeanClass(), initMethodName);
+            if (initMethod == null) {
+                throw new BeanException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+            }
+            initMethod.invoke(wrappedBean);
+        }
     }
 
     @Override

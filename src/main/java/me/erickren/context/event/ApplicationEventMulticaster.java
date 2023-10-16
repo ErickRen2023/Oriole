@@ -8,10 +8,10 @@ import me.erickren.context.ApplicationListener;
  * Author: ErickRen
  */
 public interface ApplicationEventMulticaster {
-    
+
     void addApplicationListener(ApplicationListener<?> listener);
 
-	void removeApplicationListener(ApplicationListener<?> listener);
+    void removeApplicationListener(ApplicationListener<?> listener);
 
-	void multicastEvent(ApplicationEvent event);
+    void multicastEvent(ApplicationEvent event);
 }
