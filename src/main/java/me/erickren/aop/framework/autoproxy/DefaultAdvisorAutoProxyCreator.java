@@ -3,6 +3,7 @@ package me.erickren.aop.framework.autoproxy;
 import me.erickren.aop.*;
 import me.erickren.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import me.erickren.aop.framework.ProxyFactory;
+import me.erickren.beans.PropertyValues;
 import me.erickren.beans.factory.BeanFactory;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -57,6 +58,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
             }
         }
         return null;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeanException {
+        return pvs;
     }
 
     private boolean isInfrastructureClass(Class<?> beanClass) {

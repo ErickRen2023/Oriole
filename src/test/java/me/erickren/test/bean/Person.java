@@ -2,6 +2,7 @@ package me.erickren.test.bean;
 
 import me.erickren.beans.factory.DisposableBean;
 import me.erickren.beans.factory.InitializingBean;
+import me.erickren.beans.factory.annotation.Value;
 import me.erickren.stereotype.Component;
 
 /**
@@ -13,6 +14,7 @@ import me.erickren.stereotype.Component;
 @Component("me")
 public class Person implements InitializingBean, DisposableBean {
 
+    @Value("${name}")
     private String name;
 
     private Money money;
