@@ -17,7 +17,7 @@ public interface BeanPostProcessor {
      * @throws BeanException Exception.
      */
     Object postProcessBeforeInitialization(Object bean, String beanName) throws BeanException;
-    
+
     /**
      * Call the method after call the bean initialization method.
      *

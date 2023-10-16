@@ -5,8 +5,8 @@ package me.erickren.aop;
  * Author: ErickRen
  */
 public interface Pointcut {
-    
+
     ClassFilter getClassFilter();
-    
+
     MethodMatcher getMethodMatcher();
 }

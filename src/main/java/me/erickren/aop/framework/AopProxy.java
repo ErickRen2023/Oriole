@@ -5,6 +5,6 @@ package me.erickren.aop.framework;
  * Author: ErickRen
  */
 public interface AopProxy {
-    
+
     Object getProxy();
 }

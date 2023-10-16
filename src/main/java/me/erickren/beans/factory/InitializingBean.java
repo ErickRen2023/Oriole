@@ -5,6 +5,6 @@ package me.erickren.beans.factory;
  * Author: ErickRen
  */
 public interface InitializingBean {
-    
+
     void afterPropertiesSet() throws Exception;
 }

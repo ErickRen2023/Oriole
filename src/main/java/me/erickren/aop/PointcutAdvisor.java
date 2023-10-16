@@ -5,6 +5,6 @@ package me.erickren.aop;
  * Author: ErickRen
  */
 public interface PointcutAdvisor extends Advisor {
-    
+
     Pointcut getPointcut();
 }

@@ -7,20 +7,21 @@ import me.erickren.beans.factory.support.DefaultListableBeanFactory;
  * DateTime: 2023/09/27 - 17:44
  * Author: ErickRen
  */
-public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext{
-    
+public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
+
     private DefaultListableBeanFactory beanFactory;
-    
+
     @Override
     protected final void refreshBeanFactory() throws BeanException {
         DefaultListableBeanFactory beanFactory = createBeanFactory();
-        
+
         loadBeanDefinitions(beanFactory);
         this.beanFactory = beanFactory;
     }
 
     /**
      * Load BeanDefinitions
+     *
      * @param beanFactory The bean factory.
      * @throws BeanException Exception.
      */
@@ -28,6 +29,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 
     /**
      * Create BeanFactory.
+     *
      * @return An implement for BeanFactory.
      */
     protected DefaultListableBeanFactory createBeanFactory() {

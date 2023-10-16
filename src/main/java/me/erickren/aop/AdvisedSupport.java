@@ -8,7 +8,7 @@ import org.aopalliance.intercept.MethodInterceptor;
  * Author: ErickRen
  */
 public class AdvisedSupport {
-    
+
     private boolean cglibProxy = false;
     private TargetSource targetSource;
     private MethodInterceptor methodInterceptor;

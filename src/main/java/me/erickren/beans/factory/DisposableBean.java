@@ -5,6 +5,6 @@ package me.erickren.beans.factory;
  * Author: ErickRen
  */
 public interface DisposableBean {
-    
+
     void destroy() throws Exception;
 }

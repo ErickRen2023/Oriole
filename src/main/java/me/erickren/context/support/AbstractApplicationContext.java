@@ -22,7 +22,7 @@ import java.util.Map;
  * Author: ErickRen
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
-    
+
     public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
     private ApplicationEventMulticaster applicationEventMulticaster;
 
@@ -51,6 +51,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     /**
      * Get the bean factory.
+     *
      * @return BeanFactory.
      */
     public abstract ConfigurableListableBeanFactory getBeanFactory();
@@ -78,63 +79,63 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
             beanFactory.addBeanPostProcessor(beanPostProcessor);
         }
     }
-    
+
     protected void initApplicationEventMulticaster() {
-		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
-		applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
-		beanFactory.addSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
-	}
-    
+        ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+        applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+        beanFactory.addSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
+    }
+
     protected void registerListeners() {
-		Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
-		for (ApplicationListener applicationListener : applicationListeners) {
-			applicationEventMulticaster.addApplicationListener(applicationListener);
-		}
-	}
-    
+        Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
+        for (ApplicationListener applicationListener : applicationListeners) {
+            applicationEventMulticaster.addApplicationListener(applicationListener);
+        }
+    }
+
     @Override
-	public <T> T getBean(String name, Class<T> requiredType) throws BeanException {
-		return getBeanFactory().getBean(name, requiredType);
-	}
+    public <T> T getBean(String name, Class<T> requiredType) throws BeanException {
+        return getBeanFactory().getBean(name, requiredType);
+    }
 
-	@Override
-	public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeanException {
-		return getBeanFactory().getBeansOfType(type);
-	}
-    
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeanException {
+        return getBeanFactory().getBeansOfType(type);
+    }
+
     protected void finishRefresh() {
-		publishEvent(new ContextRefreshedEvent(this));
-	}
+        publishEvent(new ContextRefreshedEvent(this));
+    }
 
-	@Override
-	public void publishEvent(ApplicationEvent event) {
-		applicationEventMulticaster.multicastEvent(event);
-	}
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+        applicationEventMulticaster.multicastEvent(event);
+    }
 
-	public Object getBean(String name) throws BeanException {
-		return getBeanFactory().getBean(name);
-	}
+    public Object getBean(String name) throws BeanException {
+        return getBeanFactory().getBean(name);
+    }
 
-	public String[] getBeanDefinitionNames() {
-		return getBeanFactory().getBeanDefinitionNames();
-	}
-    
+    public String[] getBeanDefinitionNames() {
+        return getBeanFactory().getBeanDefinitionNames();
+    }
+
     public void close() {
-		doClose();
-	}
+        doClose();
+    }
 
-	public void registerShutdownHook() {
-		Thread shutdownHook = new Thread(this::doClose);
-		Runtime.getRuntime().addShutdownHook(shutdownHook);
+    public void registerShutdownHook() {
+        Thread shutdownHook = new Thread(this::doClose);
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
 
-	}
+    }
 
-	protected void doClose() {
+    protected void doClose() {
         publishEvent(new ContextClosedEvent(this));
-		destroyBeans();
-	}
+        destroyBeans();
+    }
 
-	protected void destroyBeans() {
-		getBeanFactory().destroySingletons();
-	}
+    protected void destroyBeans() {
+        getBeanFactory().destroySingletons();
+    }
 }

@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  * Author: ErickRen
  */
 public class ReflectiveMethodInvocation implements MethodInvocation {
-    
+
     protected final Object target;
     protected final Method method;
     protected final Object[] arguments;
@@ -23,7 +23,7 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
 
 
     @Override
-    public Method getMethod(){
+    public Method getMethod() {
         return method;
     }
 

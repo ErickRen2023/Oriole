@@ -7,11 +7,12 @@ import me.erickren.beans.factory.exception.BeanException;
  * Author: ErickRen
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
-    
+
     private String[] configLocations;
 
     /**
      * Load bean definitions from XML file and refresh the ApplicationContext.
+     *
      * @param configLocations Locations.
      * @throws BeanException Exception.
      */
@@ -19,10 +20,10 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
         this.configLocations = configLocations;
         refresh();
     }
-    
+
     public ClassPathXmlApplicationContext(String configLocation) throws BeanException {
-		this(new String[]{configLocation});
-	}
+        this(new String[]{configLocation});
+    }
 
     @Override
     protected String[] getConfigLocations() {

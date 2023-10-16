@@ -13,12 +13,12 @@ import java.lang.reflect.Method;
  * Author: ErickRen
  */
 public class DisposableBeanAdapter implements DisposableBean {
-    
+
     private final Object bean;
 
-	private final String beanName;
+    private final String beanName;
 
-	private final String destroyMethodName;
+    private final String destroyMethodName;
 
 
     public DisposableBeanAdapter(Object bean, String beanName, BeanDefinition beanDefinition) {
@@ -36,13 +36,13 @@ public class DisposableBeanAdapter implements DisposableBean {
         /* Ensure that the bean implements DisposableBean 
            and its destruction method name is equals to "destroy", 
            the destruction operation is only called once. */
-        if (StrUtil.isNotEmpty(destroyMethodName) && !(bean instanceof DisposableBean && "destroy".equals(this.destroyMethodName))) {
-			// Call the bean destroy method.
-			Method destroyMethod = ClassUtil.getPublicMethod(bean.getClass(), destroyMethodName);
-			if (destroyMethod == null) {
-				throw new BeanException("Couldn't find a destroy method named '" + destroyMethodName + "' on bean with name '" + beanName + "'");
-			}
-			destroyMethod.invoke(bean);
-		}
+        if (StrUtil.isNotEmpty(destroyMethodName) && ! (bean instanceof DisposableBean && "destroy".equals(this.destroyMethodName))) {
+            // Call the bean destroy method.
+            Method destroyMethod = ClassUtil.getPublicMethod(bean.getClass(), destroyMethodName);
+            if (destroyMethod == null) {
+                throw new BeanException("Couldn't find a destroy method named '" + destroyMethodName + "' on bean with name '" + beanName + "'");
+            }
+            destroyMethod.invoke(bean);
+        }
     }
 }

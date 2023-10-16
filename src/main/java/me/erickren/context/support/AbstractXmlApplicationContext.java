@@ -8,7 +8,7 @@ import me.erickren.beans.factory.xml.XmlBeanDefinitionReader;
  * Author: ErickRen
  */
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableApplicationContext {
-    
+
     @Override
     protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);
@@ -20,6 +20,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableA
 
     /**
      * Get the config location.
+     *
      * @return String location.
      */
     protected abstract String[] getConfigLocations();

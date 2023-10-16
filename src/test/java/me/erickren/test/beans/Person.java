@@ -47,22 +47,22 @@ public class Person implements InitializingBean, DisposableBean {
                 ", age=" + age +
                 '}';
     }
-    
+
     public void myInitMethod() {
         System.out.println("Init method...");
     }
-    
+
     public void myDestroyMethod() {
         System.out.println("My Destroy method...");
     }
-    
-    @Override
-	public void afterPropertiesSet() throws Exception {
-		System.out.println("AfterPropertiesSet method...");
-	}
 
-	@Override
-	public void destroy() throws Exception {
-		System.out.println("DisposableBean Method...");
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("AfterPropertiesSet method...");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("DisposableBean Method...");
+    }
 }

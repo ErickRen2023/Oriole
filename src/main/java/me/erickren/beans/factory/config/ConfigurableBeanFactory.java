@@ -10,6 +10,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     /**
      * Add a BeanPostProcessor.
+     *
      * @param postProcessor BeanPostProcessor.
      */
     void addBeanPostProcessor(BeanPostProcessor postProcessor);

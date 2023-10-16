@@ -5,5 +5,5 @@ package me.erickren.beans.factory;
  * Author: ErickRen
  */
 public interface HierarchicalBeanFactory extends BeanFactory {
-    
+
 }

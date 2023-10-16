@@ -14,7 +14,5 @@ public class EventAndEventListenerTest {
     public void test() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:event-and-event-listener.xml");
 		applicationContext.publishEvent(new CustomEvent(applicationContext));
-
-        applicationContext.close();
     }
 }
