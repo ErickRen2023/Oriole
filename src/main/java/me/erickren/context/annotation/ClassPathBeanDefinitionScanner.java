@@ -1,6 +1,7 @@
 package me.erickren.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import me.erickren.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.support.BeanDefinitionRegistry;
 import me.erickren.stereotype.Component;
@@ -14,6 +15,8 @@ import java.util.Set;
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
     
     private BeanDefinitionRegistry registry;
+	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "me.erickren.context.annotation.internalAutowiredAnnotationProcessor";
+
 
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
 		this.registry = registry;
@@ -34,6 +37,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(beanName, singleCandidate);
             }
         }
+		registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME, new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
     
     private String resolveBeanScope(BeanDefinition beanDefinition) {
