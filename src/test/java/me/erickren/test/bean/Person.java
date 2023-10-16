@@ -1,13 +1,16 @@
-package me.erickren.test.beans;
+package me.erickren.test.bean;
 
 import me.erickren.beans.factory.DisposableBean;
 import me.erickren.beans.factory.InitializingBean;
+import me.erickren.stereotype.Component;
 
 /**
  * Test bean.
  * DateTime: 2023/09/18 - 11:50
  * Author: ErickRen
  */
+
+@Component("me")
 public class Person implements InitializingBean, DisposableBean {
 
     private String name;
@@ -57,12 +60,12 @@ public class Person implements InitializingBean, DisposableBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         System.out.println("AfterPropertiesSet method...");
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         System.out.println("DisposableBean Method...");
     }
 }

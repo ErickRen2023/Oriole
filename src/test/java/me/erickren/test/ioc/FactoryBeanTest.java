@@ -1,7 +1,7 @@
 package me.erickren.test.ioc;
 
 import me.erickren.context.support.ClassPathXmlApplicationContext;
-import me.erickren.test.beans.Person;
+import me.erickren.test.bean.Person;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

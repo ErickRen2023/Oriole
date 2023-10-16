@@ -1,7 +1,7 @@
 package me.erickren.test.ioc;
 
-import me.erickren.test.beans.Money;
-import me.erickren.test.beans.Person;
+import me.erickren.test.bean.Money;
+import me.erickren.test.bean.Person;
 import me.erickren.context.support.ClassPathXmlApplicationContext;
 import org.junit.Test;
 

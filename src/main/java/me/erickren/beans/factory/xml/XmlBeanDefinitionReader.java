@@ -7,6 +7,7 @@ import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.exception.BeanException;
 import me.erickren.beans.factory.support.AbstractBeanDefinitionReader;
 import me.erickren.beans.factory.support.BeanDefinitionRegistry;
+import me.erickren.context.annotation.ClassPathBeanDefinitionScanner;
 import me.erickren.core.io.resource.Resource;
 import me.erickren.core.io.resource.loader.ResourceLoader;
 import org.dom4j.Document;
@@ -35,6 +36,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     public static final String INIT_METHOD_ATTRIBUTE = "init-method";
     public static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
     public static final String SCOPE_ATTRIBUTE = "scope";
+    public static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
+    public static final String COMPONENT_SCAN_ELEMENT = "component-scan";
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -58,10 +61,20 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
-
-        org.dom4j.Element beans = document.getRootElement();
-        List<org.dom4j.Element> beanList = beans.elements(BEAN_ELEMENT);
-        for (org.dom4j.Element bean : beanList) {
+        
+        
+        Element root = document.getRootElement();
+        
+		Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
+		if (componentScan != null) {
+			String scanPath = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+			if (StrUtil.isEmpty(scanPath)) {
+				throw new BeanException("The value of base-package attribute can not be empty or null");
+			}
+			scanPackage(scanPath);
+		}
+        List<Element> beanList = root.elements(BEAN_ELEMENT);
+        for (Element bean : beanList) {
             String beanId = bean.attributeValue(ID_ATTRIBUTE);
             String beanName = bean.attributeValue(NAME_ATTRIBUTE);
             String className = bean.attributeValue(CLASS_ATTRIBUTE);
@@ -121,4 +134,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         Resource resource = resourceLoader.getResource(location);
         loadBeanDefinitions(resource);
     }
+    
+    /**
+	 * Scan target class and build to BeanDefinition.
+	 *
+	 * @param scanPath Target Path.
+	 */
+	private void scanPackage(String scanPath) {
+		String[] basePackages = StrUtil.splitToArray(scanPath, ',');
+		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+		scanner.doScan(basePackages);
+	}
 }

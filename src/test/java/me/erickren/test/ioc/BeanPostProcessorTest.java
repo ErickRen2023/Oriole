@@ -1,9 +1,9 @@
 package me.erickren.test.ioc;
 
-import me.erickren.test.beans.Person;
+import me.erickren.test.bean.Person;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;
 import me.erickren.beans.factory.xml.XmlBeanDefinitionReader;
-import me.erickren.test.beans.Money;
+import me.erickren.test.bean.Money;
 import me.erickren.test.processor.MyBeanFactoryPostProcessor;
 import me.erickren.test.processor.MyBeanPostProcessor;
 import org.junit.Test;
