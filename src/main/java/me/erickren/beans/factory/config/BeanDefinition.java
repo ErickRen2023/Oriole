@@ -2,6 +2,8 @@ package me.erickren.beans.factory.config;
 
 import me.erickren.beans.PropertyValues;
 
+import java.util.Objects;
+
 /**
  * The bean definition.
  * DateTime: 2023/09/14 - 18:34
@@ -26,6 +28,8 @@ public class BeanDefinition {
     private String initMethodName;
 
     private String destroyMethodName;
+    
+    
 
     public BeanDefinition(Class beanClass) {
         this(beanClass, null);
@@ -80,5 +84,18 @@ public class BeanDefinition {
 
     public void setDestroyMethodName(String destroyMethodName) {
         this.destroyMethodName = destroyMethodName;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BeanDefinition temp = (BeanDefinition) o;
+        return beanClass.equals(temp.beanClass);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(beanClass);
     }
 }

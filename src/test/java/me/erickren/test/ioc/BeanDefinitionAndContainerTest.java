@@ -1,13 +1,13 @@
 package me.erickren.test.ioc;
 
-import me.erickren.test.beans.Person;
+import me.erickren.test.bean.Person;
 import me.erickren.test.pojo.TestClass;
 import me.erickren.beans.PropertyValue;
 import me.erickren.beans.PropertyValues;
 import me.erickren.beans.factory.config.BeanDefinition;
 import me.erickren.beans.factory.config.BeanReference;
 import me.erickren.beans.factory.support.DefaultListableBeanFactory;
-import me.erickren.test.beans.Money;
+import me.erickren.test.bean.Money;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

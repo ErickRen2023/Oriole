@@ -1,4 +1,4 @@
-package me.erickren.test.beans;
+package me.erickren.test.bean;
 
 import me.erickren.beans.factory.FactoryBean;
 

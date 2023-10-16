@@ -7,12 +7,12 @@
 		 http://www.springframework.org/schema/context
 		 http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <bean id="me" class="me.erickren.test.beans.Person" init-method="myInitMethod" destroy-method="myDestroyMethod">
+    <bean id="me" class="me.erickren.test.bean.Person" init-method="myInitMethod" destroy-method="myDestroyMethod">
         <property name="name" value="ErickRen"/>
         <property name="money" ref="myMoney"/>
     </bean>
 
-    <bean id="myMoney" class="me.erickren.test.beans.Money">
+    <bean id="myMoney" class="me.erickren.test.bean.Money">
         <property name="status" value="empty"/>
     </bean>
     

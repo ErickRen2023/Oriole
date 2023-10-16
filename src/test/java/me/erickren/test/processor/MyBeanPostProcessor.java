@@ -2,7 +2,7 @@ package me.erickren.test.processor;
 
 import me.erickren.beans.factory.config.BeanPostProcessor;
 import me.erickren.beans.factory.exception.BeanException;
-import me.erickren.test.beans.Money;
+import me.erickren.test.bean.Money;
 
 /**
  * DateTime: 2023/09/26 - 20:49
