@@ -27,19 +27,33 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeanException {
         // Solve @Value
         Class<?> cls = bean.getClass();
-        Field[] field = cls.getDeclaredFields();
-        for (Field singleField : field) {
-            Value valueAnnotation = singleField.getAnnotation(Value.class);
+        Field[] fields = cls.getDeclaredFields();
+        for (Field field : fields) {
+            Value valueAnnotation = field.getAnnotation(Value.class);
             if (valueAnnotation != null) {
                 String value = valueAnnotation.value();
                 value = beanFactory.resolveEmbeddedValue(value);
-                BeanUtil.setFieldValue(bean, singleField.getName(), value);
+                BeanUtil.setFieldValue(bean, field.getName(), value);
             }
         }
 
         // Solve @Autowired
-
-        // TODO
+        for (Field field : fields) {
+            Autowired autowiredAnnotation = field.getAnnotation(Autowired.class);
+            if (autowiredAnnotation != null) {
+                Class<?> fieldType = field.getType();
+                String dependentBeanName = null;
+                Qualifier qualifierAnnotation = field.getAnnotation(Qualifier.class);
+                Object dependentBean = null;
+				if (qualifierAnnotation != null) {
+					dependentBeanName = qualifierAnnotation.value();
+					dependentBean = beanFactory.getBean(dependentBeanName, fieldType);
+				} else {
+					dependentBean = beanFactory.getBean(fieldType);
+				}
+				BeanUtil.setFieldValue(bean, field.getName(), dependentBean);
+            }
+        }
         return pvs;
     }
 
