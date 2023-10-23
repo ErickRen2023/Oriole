@@ -138,4 +138,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     protected void destroyBeans() {
         getBeanFactory().destroySingletons();
     }
+    
+    public <T> T getBean(Class<T> requiredType) throws BeanException {
+		return getBeanFactory().getBean(requiredType);
+	}
 }

@@ -1,10 +1,13 @@
 package me.erickren.test.bean;
 
+import me.erickren.stereotype.Component;
+
 /**
  * Test bean.
  * DateTime: 2023/09/18 - 13:50
  * Author: ErickRen
  */
+@Component
 public class Money {
 
     private int count;

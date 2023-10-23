@@ -27,4 +27,6 @@ public interface BeanFactory {
      * @throws BeanException Bean not found.
      */
     <T> T getBean(String name, Class<T> beanType) throws BeanException;
+    
+    <T> T getBean(Class<T> requiredType) throws BeanException;
 }
