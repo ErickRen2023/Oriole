@@ -18,4 +18,9 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * Called before property set.
 	 */
 	PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeanException;
+
+    /**
+     * Called before set property behind creating instance. 
+     */
+    boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeanException;
 }

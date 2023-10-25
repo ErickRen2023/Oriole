@@ -65,6 +65,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         return pvs;
     }
 
+    @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeanException {
+        return true;
+    }
+
     private boolean isInfrastructureClass(Class<?> beanClass) {
         return Advice.class.isAssignableFrom(beanClass)
                 || Pointcut.class.isAssignableFrom(beanClass)

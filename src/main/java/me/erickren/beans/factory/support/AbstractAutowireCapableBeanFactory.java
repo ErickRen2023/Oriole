@@ -62,12 +62,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         try {
             // Create bean.
             bean = createBeanInstance(beanDefinition);
+            
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
+			if (!continueWithPropertyPopulation) {
+				return bean;
+			}
+            
             // Allow the BeanPostProcessor modify the property value.
             applyBeanPostprocessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // Populate bean.
             applyPropertyValues(beanName, bean, beanDefinition);
             // Call the Bean initialization method and BeanPostProcessor.
-            initializeBean(beanName, bean, beanDefinition);
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Failed to instantiate [" + beanDefinition.getBeanClass().getName() + "]", e);
         }
@@ -117,7 +123,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
 
-    protected void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
         if (bean instanceof BeanFactoryAware) {
             ((BeanFactoryAware) bean).setBeanFactory(this);
         }
@@ -129,7 +135,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             throw new BeanException("Invocation of init method of bean[" + beanName + "] failed", ex);
         }
 
-        applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        return applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
     }
 
     /**
@@ -165,6 +171,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         return result;
     }
+    
+    private boolean applyBeanPostProcessorsAfterInstantiation(String beanName, Object bean) {
+		boolean continueWithPropertyPopulation = true;
+		for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+			if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+				if (!((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessAfterInstantiation(bean, beanName)) {
+					continueWithPropertyPopulation = false;
+					break;
+				}
+			}
+		}
+		return continueWithPropertyPopulation;
+	}
 
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeanException {
